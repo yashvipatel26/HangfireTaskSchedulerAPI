@@ -44,19 +44,19 @@ using (var scope = app.Services.CreateScope())
     // Every Hour
     recurringJobManager.AddOrUpdate<DailyTaskJob>(
         "HourlyTaskJob",
-        job => job.SendDailyTask(),
+        job => job.SendHourlyTask(),
         "0 * * * *");
 
     // Weekly
     recurringJobManager.AddOrUpdate<DailyTaskJob>(
         "WeeklyTaskJob",
-        job => job.SendDailyTask(),
+        job => job.SendWeeklyTask(),
         "30 5 * * 1");
 
     // Monthly
     recurringJobManager.AddOrUpdate<DailyTaskJob>(
         "MonthlyTaskJob",
-        job => job.SendDailyTask(),
+        job => job.SendMonthlyTask(),
         "30 5 1 * *");
 }
 
