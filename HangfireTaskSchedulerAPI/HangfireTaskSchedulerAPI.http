@@ -1,0 +1,6 @@
+@HangfireTaskSchedulerAPI_HostAddress = http://localhost:5134
+
+GET {{HangfireTaskSchedulerAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
