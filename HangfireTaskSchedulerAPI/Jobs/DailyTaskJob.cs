@@ -1,8 +1,6 @@
-﻿using HangfireTaskSchedulerAPI.Data;
-using HangfireTaskSchedulerAPI.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
+using HangfireTaskSchedulerAPI.Data;
 using HangfireTaskSchedulerAPI.Services;
+using System.Text;
 
 namespace HangfireTaskSchedulerAPI.Jobs
 {
@@ -19,21 +17,57 @@ namespace HangfireTaskSchedulerAPI.Jobs
             _context = context;
         }
 
+        // ------------------- Daily -------------------
         public void SendDailyTask()
+        {
+            SendTaskEmail(
+                "Daily Task Reminder",
+                "Daily Pending Tasks",
+                "This is the daily email for today's pending tasks.");
+        }
+
+        // ------------------- Weekly -------------------
+        public void SendWeeklyTask()
+        {
+            SendTaskEmail(
+                "Weekly Task Reminder",
+                "Weekly Pending Tasks",
+                "This is the weekly email for pending tasks.");
+        }
+
+        // ------------------- Monthly -------------------
+        public void SendMonthlyTask()
+        {
+            SendTaskEmail(
+                "Monthly Task Reminder",
+                "Monthly Pending Tasks",
+                "This is the monthly email for pending tasks.");
+        }
+
+        // ------------------- Hourly -------------------
+        public void SendHourlyTask()
+        {
+            SendTaskEmail(
+                "Hourly Task Reminder",
+                "Hourly Pending Tasks",
+                "This is the hourly email for pending tasks.");
+        }
+
+        // ------------------- Common Email Method -------------------
+        private void SendTaskEmail(string subject, string heading, string message)
         {
             var tasks = _context.TaskMasters.ToList();
 
             StringBuilder html = new StringBuilder();
 
-
             html.Append("<html>");
             html.Append("<body style='font-family:Arial;'>");
 
-            html.Append("<h2 style='color:blue;'>Today's Pending Tasks</h2>");
+            html.Append($"<h2 style='color:blue;'>{heading}</h2>");
 
             html.Append("<p>Hello Team,</p>");
 
-            html.Append("<p>This is the daily email for today's pending tasks.</p>");
+            html.Append($"<p>{message}</p>");
 
             html.Append("<p>Please find the task details below:</p>");
 
@@ -69,10 +103,9 @@ namespace HangfireTaskSchedulerAPI.Jobs
             html.Append("</html>");
 
             _emailService.SendEmail(
-            "your_email@gmail.com",
-            "Today's Pending Tasks",
-             html.ToString()
-   
+                "projecthangfire@gmail.com",
+                subject,
+                html.ToString()
             );
         }
     }
